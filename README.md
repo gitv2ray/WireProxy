@@ -2,22 +2,22 @@
 
 将Wireguard设置为为socks5代理或隧道的Wireguard客户端
 
-# 这个程序是什么？
+## 这个程序是什么？
 
 Wireproxy是一个完全用户空间的应用程序，它连接到WireGuard。并在机器上公开一个socks5代理或隧道。如果你需要通过WireGuard连接到某些网站，但又不想设置一个新的网络接口。
 
-# 为什么你可能需要这个
+## 为什么你需要这个
 
 - 你只是想通过wireguard来代理一些流量
 - 你不需要root权限来改变wireguard的设置。
 
 目前我正在运行wireproxy，连接到另一个国家的WireGuard服务器。并将我的浏览器配置为对某些网站使用Wireproxy。这是很有用的，因为Wireproxy与我的网络接口完全隔离，而且我不需要root权限来配置任何东西。
 
-# 使用方法
+## 使用方法
 
 `./wireproxy [配置文件位置]`
 
-# 配置文件示例
+## 配置文件示例
 
 ```
 # SelfSecretKey 为WireGuard的私钥
