@@ -1,59 +1,57 @@
-# wireproxy
-Wireguard client that exposes itself as a socks5 proxy or tunnels
+# Wireproxy
 
-# What is this
-wireproxy is a completely userspace application that connects to a wireguard peer,
-and exposes a socks5 proxy or tunnels on the machine. This can be useful if you need
-to connect to certain sites via a wireguard peer, but do not want to setup a new network
-interface for whatever reasons.
+将Wireguard设置为为socks5代理或隧道的Wireguard客户端
 
-# Why you might want this
-- You simply want wireguard as a way to proxy some traffic
-- You don't want root permission just to change wireguard settings
+# 这个程序是什么？
 
-Currently I am running wireproxy connected to a wireguard server in another country,
-and configured my browser to use wireproxy for certain sites. It is pretty useful since
-wireproxy is completely isolated from my network interfaces, also I don't need root to configure
-anything.
+Wireproxy是一个完全用户空间的应用程序，它连接到WireGuard。并在机器上公开一个socks5代理或隧道。如果你需要通过WireGuard连接到某些网站，但又不想设置一个新的网络接口。
 
-# Usage
-`./wireproxy [config file path]`
+# 为什么你可能需要这个
 
-# Sample config file
+- 你只是想通过wireguard来代理一些流量
+- 你不需要root权限来改变wireguard的设置。
+
+目前我正在运行wireproxy，连接到另一个国家的WireGuard服务器。并将我的浏览器配置为对某些网站使用Wireproxy。这是很有用的，因为Wireproxy与我的网络接口完全隔离，而且我不需要root权限来配置任何东西。
+
+# 使用方法
+
+`./wireproxy [配置文件位置]`
+
+# 配置文件示例
+
 ```
-# SelfSecretKey is the secret key of your wireguard peer
+# SelfSecretKey 为WireGuard的私钥
 SelfSecretKey = uCTIK+56CPyCvwJxmU5dBfuyJvPuSXAq1FzHdnIxe1Q=
-# SelfEndpoint is the IP of your wireguard peer
+# SelfEndpoint 是你的WireGuard的IP
 SelfEndpoint = 172.16.31.2
-# PeerPublicKey is the public key of the wireguard server you want to connect to
+# PeerPublicKey 是你想连接的wireguard服务器的公钥
 PeerPublicKey = QP+A67Z2UBrMgvNIdHv8gPel5URWNLS4B3ZQ2hQIZlg=
-# PeerEndpoint is the endpoint of the wireguard server you want to connect to
+# PeerEndpoint 是你想连接的wireguard服务器的EndPoint IP
 PeerEndpoint = 172.16.0.1:53
 # DNS is the nameservers that will be used by wireproxy.
-# Multple nameservers can be specified as such: DNS = 1.1.1.1, 1.0.0.1
 DNS = 1.1.1.1
-# KeepAlive is the persistent keep alive interval of the wireguard device
-# usually not needed
+# KeepAlive 是Wireuard设备的守护时间间隔，一般不需要设置
 # KeepAlive = 25
-# PreSharedKey is the pre shared key of your wireguard device
-# if you don't know what this is you don't need it
+# PreSharedKey是你的Wireguard设备的预共享密钥，如果你不知道这是什么，你就不需要它了
 # PreSharedKey = UItQuvLsyh50ucXHfjF0bbR4IIpVBd74lwKc8uIPXXs=
 
-# TCPClientTunnel is a tunnel listening on your machine, and
-# forward any TCP traffic received to the specified target via wireguard
-# some applications on your LAN -> 127.0.0.1:25565 --wireguard--> play.cubecraft.net:25565
+# TCPClientTunnel 是一个在你的机器上监听的隧道，并将收到的任何TCP流量通过wireguard转发给指定的目标。
+# 你的局域网上的一些应用程序 -> 127.0.0.1:25565 --> WireGuard --> play.cubecraft.net:25565
 [TCPClientTunnel]
 BindAddress = 127.0.0.1:25565
 Target = play.cubecraft.net:25565
 
-# TCPServerTunnel is a tunnel listening on wireguard, and
-# forward any TCP traffic received to the specified target via local network
-# some applications on your wireguard network --wireguard--> 172.16.31.2:3422 -> localhost:25545
+# TCPServerTunnel是一个在wireguard上监听的隧道，并通过本地网络将收到的任何TCP流量转发到指定的目标。
+# 你的wireguard网络上的一些应用 --> WireGuard --> 172.16.31.2:3422 -> localhost:25545
 [TCPServerTunnel]
 ListenPort = 3422
 Target = localhost:25545
 
-# Socks5 create a socks5 proxy on your LAN, and any traffic would be routed via wireguard
+# 在你的局域网上创建一个socks5代理，通过Socks5的流量都将通过wireguard进行路由。
 [Socks5]
 BindAddress = 127.0.0.1:25344
 ```
+
+## 感谢
+
+原作：https://github.com/octeep/wireproxy
